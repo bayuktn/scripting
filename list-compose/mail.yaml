@@ -4,9 +4,9 @@ services:
   mailserver:
     image: docker.io/mailserver/docker-mailserver:latest
     container_name: mailserver
-    hostname: mail
+    hostname: abay
     # Change this to your domain, it is used for your email accounts (eg: user@example.com):
-    domainname: example.com
+    domainname: devlmu.com
     ports:
       - "25:25"
       - "587:587"
