@@ -2,16 +2,23 @@ version: '3.6'
 
 services:
   mailserver:
-    image: daone/postfix-dovecot
-    container_name: mailserver
+    hostname: mail-server-roundcube
+    image: marooou/postfix-roundcube
+    container_name: roundserver
     restart: unless-stopped
     ports:
      - 25:25
-     - 465:465
+     - 110:110
      - 143:143
+     - 465:465
      - 993:993
+     - 995:995
     environment:
-     - maildomain=devlmu.com
+     - ADMIN_USERNAME=root
+     - ADMIN_PASSWD=password
+     - DOMAIN_NAME=devlmu.com
+     - USERS=abay:abay-1,bayu:bayu-1
     volumes:
-     - /path_for_postfix_mail_delivery:/var/mail
-     - /path_for_imap_storage:/home
+     - /data/mysql:/var/lib/mysql
+     - /data/vmail/:/var/vmail
+     - /data/log:/var/log
