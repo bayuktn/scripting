@@ -19,12 +19,6 @@ echo 'Membuat dkim untuk $domain >>> DONE'
 sudo chown opendkim:opendkim /etc/opendkim/keys/$domain/default.private
 echo 'Pemberian Hak Akses untuk domain $domain >>> DONE'
 
-sudo cat /etc/opendkim/keys/$domain/default.txt
-echo -e 'COPY text diatas ke DNS Management dengan format : \nTYPE: TXT \nNAME: default._domainkey \nTTL: BEBAS \nCONTENT: masukkan data diatas TANPA SPASI dan PETIK2'
-echo '##############################################################################'
-echo -e 'Kemudian buat lagi untuk dmarc $domain  \nTYPE: TXT \nNAME: _dmarc \nCONTENT: v=DMARC1;p=none;pct=100;rua=mailto:report@$domain \nBuatlah email dengan format report@$domain' 
-echo '##############################################################################'
-
 sudo touch /etc/apache2/sites-available/mail.$domain.conf
 sudo echo > /etc/apache2/sites-available/mail.$domain.conf << EOF
 <VirtualHost *:80>
@@ -50,4 +44,16 @@ sudo echo > /etc/apache2/sites-available/mail.$domain.conf << EOF
 EOF
 sudo a2ensite mail.$domain.conf
 echo 'Selamat pendaftaran Web mail.$domain sudah berhasil !'
-echo 'silahkan membuat certificate sudo certbot --apache --agree-tos --redirect --hsts --staple-ocsp -d mail.domain1.com,mail.domain2.com --cert-name mail.domain1.com --email you@example.com'
+sudo systemctl restart apache2 dovecot postfix opendkim
+echo 'Restart service berhasil'
+echo 'Setting sudah selesai tinggal ikuti langkah dibawah ini'
+
+sudo cat /etc/opendkim/keys/$domain/default.txt
+echo -e 'COPY text diatas ke DNS Management dengan format : \nTYPE: TXT \nNAME: default._domainkey \nTTL: BEBAS \nCONTENT: masukkan data diatas TANPA SPASI dan PETIK2'
+echo '##############################################################################'
+echo -e 'Kemudian buat lagi untuk dmarc $domain  \nTYPE: TXT \nNAME: _dmarc \nCONTENT: v=DMARC1;p=none;pct=100;rua=mailto:report@$domain \nBuatlah email dengan format report@$domain' 
+echo '##############################################################################'
+echo 'Isi di DNS Managemenet $domain  \nTYPE: MX \nNAME: @ \nCONTENT: mail.$domain'
+echo 'Isi di DNS Managemenet $domain  \nTYPE: A \nNAME: mail \nCONTENT: IP-Address'
+echo 'Isi di DNS Managemenet $domain  \nTYPE: TXT \nNAME: @ \nCONTENT: v=spf1 mx ~all'
+echo 'silahkan membuat certificate sudo certbot --apache --agree-tos --redirect --hsts --staple-ocsp -d mail.devlmu.com,mail.simotor.id,mail.$domain --cert-name mail.devlmu.com --email katontsuyoi@gmail.com'
