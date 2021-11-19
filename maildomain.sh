@@ -20,7 +20,7 @@ sudo chown opendkim:opendkim /etc/opendkim/keys/$domain/default.private
 echo 'Pemberian Hak Akses untuk domain $domain >>> DONE'
 
 sudo touch /etc/apache2/sites-available/mail.$domain.conf
-sudo echo > /etc/apache2/sites-available/mail.$domain.conf << EOF
+sudo cat > /etc/apache2/sites-available/mail.$domain.conf << EOF
 <VirtualHost *:80>
   ServerName mail.$domain
   DocumentRoot /var/www/html/
