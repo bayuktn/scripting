@@ -34,7 +34,7 @@ backup_strack_data = berguna untuk conversi data ke 7z
 upload_drive = berguna untuk upload data ke drive.
 delete_drive = berguna untuk menghapus satu data yang paling atas.
 
-
+##Upload data to google drive and delete data on disk
 #!/bin/bash
 dir_data=/var/lib/docker/volumes/warna_sales_WarnaFiles/
 read tgl <<< $(date +"%d-%m-%Y")
@@ -42,8 +42,6 @@ cd $dir_data
 
 7z a $HOME/backup_store/data_strack-$tgl.7z _data
 
-##Upload data to google drive and delete data on disk
-#!/bin/bash
 gdrive sync  upload /root/backup_store 1jNw5GTV9xOUHMYngcdO5ttJ1WBtlpqxo
 rm $HOME/backup_store/*
 
@@ -54,4 +52,4 @@ gdrive delete $data_drive
 
 #Cron section
 0  1    * * 6   root    backup_data.sh
-0  1   15 * *   root    delete_drive.sh
+0  1   15,24 * *        root    delete_drive.sh
