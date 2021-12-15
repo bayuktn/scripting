@@ -51,3 +51,7 @@ rm $HOME/backup_store/*
 #!/bin/bash
 read data_drive <<< $(gdrive sync content  1jNw5GTV9xOUHMYngcdO5ttJ1WBtlpqxo| awk 'FNR==2{print $1}')
 gdrive delete $data_drive
+
+#Cron section
+0  1    * * 6   root    backup_data.sh
+0  1   15 * *   root    delete_drive.sh
