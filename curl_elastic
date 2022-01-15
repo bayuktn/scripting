@@ -1,0 +1,12 @@
+#Perintah Elasticsearch
+
+##Peerintah untuk memindahkan elastic data ke server elastic lain.
+npm install -g elasticdump
+elasticdump --input="http://Source:9200/Sourceindex" --output="http://username:password@Destination:9200/Destination_index"  --type=mapping
+elasticdump --input="http://Source:9200/Sourceindex" --output="http://username:password@Destination:9200/Destination_index"  --type=data
+
+##Hapus data Elastic
+curl -X DELETE -u user:pass 'http://localhost:9200/_all'
+
+##Melihat data elastic
+curl 'localhost:9200/_cat/indices?v'
