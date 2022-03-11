@@ -9,8 +9,8 @@ fi
 netstat -tunlp | grep $1 > /dev/null
 main=$(echo $?)
 if [[ -z $1 ]]
-then	
-	netstat -tunlp | awk '{print $4,">>>>>>",$7}'
+then
+	netstat -tunlp | awk '{print $4,"--- "$1,"---->",$7}' | awk -F ':*' '{print $2}' | awk '!/^$/'	
 elif [[ $main != 0 ]]
     then
 	echo "Port $1 Not Found !!"
